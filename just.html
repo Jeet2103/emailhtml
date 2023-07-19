@@ -5,74 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Sender Form</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        #emailForm {
-            background-color: #fff;
-            padding: 80px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            width: 400px;
-        }
-
-        h1 {
-            text-align: center;
-            padding-right: 40px;
-            color: #555;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #666;
-        }
-
-        input[type="email"],
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        textarea {
-            resize: vertical;
-        }
-
-        input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #0056b3;
-        }
+        /* ... (Same CSS styles as in your original code) ... */
     </style>
 </head>
 <body>
     <h1>Email Sender Form</h1>
     <form id="emailForm">
-
         <label for="receivers">Receivers Email:</label>
-        <input type="text" name="receivers" required><br>
+        <input type="email" name="receivers" required><br>
 
         <label for="subject">Subject:</label>
         <input type="text" name="subject" required><br>
@@ -80,7 +20,7 @@
         <label for="body">Body:</label><br>
         <textarea name="body" rows="5" cols="40" required></textarea><br>
 
-        <input type="submit" value="Send Email" id="submit">
+        <input type="submit" value="Send Email">
     </form>
     <script>
         document.getElementById("emailForm").addEventListener("submit", function (event) {
@@ -90,17 +30,23 @@
 
         async function sendEmail() {
             const formData = new FormData(document.getElementById("emailForm"));
+            const endpointURL = 'https://api2-2zk3.onrender.com/send_email/';
 
-            // try {
-                
-                const response = fetch('https://api2-2zk3.onrender.com/send_email/', {
+            try {
+                const response = await fetch(endpointURL, {
                     method: 'POST',
                     body: formData
                 });
-                console.log(response)
-                alert("Do you want to send he Email? ")
-     
-            // }
+
+                if (response.ok) {
+                    alert("Email sent successfully!");
+                } else {
+                    alert("Failed to send the email. Please try again later.");
+                }
+            } catch (error) {
+                alert("An error occurred while sending the email. Please try again later.");
+                console.error(error);
+            }
         }
     </script>
 </body>
